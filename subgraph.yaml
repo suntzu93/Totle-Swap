@@ -1,0 +1,39 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: Contract
+    network: mainnet
+    source:
+      address: "0x7113Dd99c79afF93d54CFa4B2885576535A132dE"
+      abi: Contract
+      startBlock: 10180583
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - LogSwapCollection
+        - LogSwap
+        - Paused
+        - Unpaused
+        - OwnershipRenounced
+        - OwnershipTransferred
+      abis:
+        - name: Contract
+          file: ./abis/Contract.json
+      eventHandlers:
+        - event: LogSwapCollection(indexed bytes32,indexed address,indexed address)
+          handler: handleLogSwapCollection
+        - event: LogSwap(indexed bytes32,address,address,uint256,uint256,address,uint256)
+          handler: handleLogSwap
+        - event: Paused()
+          handler: handlePaused
+        - event: Unpaused()
+          handler: handleUnpaused
+        - event: OwnershipRenounced(indexed address)
+          handler: handleOwnershipRenounced
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/mapping.ts

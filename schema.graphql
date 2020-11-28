@@ -1,0 +1,30 @@
+type ExchangeStatus @entity {
+  id: ID!
+  status: BigInt!
+}
+
+type LogSwapCollection @entity {
+  id: ID!
+  partnerContract: Bytes!
+  user: Bytes!
+  logswap: LogSwap!
+}
+
+type LogSwap @entity {
+  id: ID!
+  sourceAsset: Bytes!
+  destinationAsset: Bytes!
+  sourceAmount: BigInt!
+  destinationAmount: BigInt!
+  feeAsset: Bytes!
+  feeAmount: BigInt!
+  transaction: Transaction
+  logswapCollection: LogSwapCollection! @derivedFrom(field: "logswap")
+}
+
+type Transaction @entity {
+  id: ID!
+  timestamp: BigInt!
+  gasPrice : BigDecimal!
+  logswap: LogSwap! @derivedFrom(field: "transaction")
+}
